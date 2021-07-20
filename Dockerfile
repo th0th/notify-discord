@@ -18,7 +18,7 @@ FROM alpine:latest
 
 RUN apk update && apk add bash
 
-COPY --from=0 /usr/src/rancher-redeploy-workload/bin/notify-discord /usr/local/bin/notify-discord
+COPY --from=0 /usr/src/notify-discord/bin/notify-discord /usr/local/bin/notify-discord
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
