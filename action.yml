@@ -1,0 +1,9 @@
+name: Notify Discord
+description: An action for notifying Discord
+author: Gokhan Sari
+branding:
+  icon: send
+  color: blue
+runs:
+  using: docker
+  image: docker://th0th/notify-discord:0.1
