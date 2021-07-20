@@ -31,7 +31,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern=v{{major}}.{{minor}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -39,3 +39,4 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
