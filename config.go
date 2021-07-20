@@ -10,12 +10,14 @@ import (
 
 type Config struct {
 	DiscordWebhookUrl string `env:"DISCORD_WEBHOOK_URL" validate:"required,url"`
-	GithubAction      string `env:"GITHUB_ACTION" validate:"required"`
+	GithubActor       string `env:"GITHUB_ACTOR"`
 	GithubJobStatus   string `env:"GITHUB_JOB_STATUS" validate:"required"`
 	GithubRef         string `env:"GITHUB_REF"`
 	GithubRepository  string `env:"GITHUB_REPOSITORY" validate:"required"`
 	GithubRunId       string `env:"GITHUB_RUN_ID"`
 	GithubServerUrl   string `env:"GITHUB_SERVER_URL" validate:"required"`
+	GithubSha         string `env:"GITHUB_SHA" validate:"required"`
+	GithubWorkflow    string `env:"GITHUB_WORKFLOW" validate:"required"`
 }
 
 func NewConfig(v *Validator) (*Config, error) {
@@ -80,10 +82,10 @@ func (c *Config) GetRefUrl() string {
 	return ""
 }
 
-func (c *Config) GetRunUrl() string {
-	if c.GithubRunId == "" {
-		return ""
-	}
+func (c *Config) GetCommitUrl() string {
+	return c.GetRepositoryUrl() + "/commit/" + c.GithubSha
+}
 
-	return c.GetRepositoryUrl() + "/actions/runs/" + c.GithubRunId
+func (c *Config) GetRunUrl() string {
+	return c.GetCommitUrl() + "/checks"
 }

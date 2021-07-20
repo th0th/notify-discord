@@ -19,19 +19,36 @@ func main() {
 		log.Panicln(err)
 	}
 
-	var descriptionParts []DescriptionPart
+	descriptionParts := []DescriptionPart{
+		{
+			Name:  "Repository",
+			Value: fmt.Sprintf("[%s](%s)", c.GithubRepository, c.GetRepositoryUrl()),
+		},
+	}
 
 	descriptionParts = append(descriptionParts, DescriptionPart{
-		Name:  "Repository",
-		Value: fmt.Sprintf("[%s](%s)", c.GithubRepository, c.GetRepositoryUrl()),
+		Name:  "Workflow",
+		Value: c.GithubWorkflow,
 	})
 
-	if c.GithubAction != "" {
+	if c.GithubRef != "" {
 		descriptionParts = append(descriptionParts, DescriptionPart{
-			Name:  "Action",
-			Value: c.GithubAction,
+			Name:  "Ref",
+			Value: c.GithubRef,
 		})
 	}
+
+	if c.GithubActor != "" {
+		descriptionParts = append(descriptionParts, DescriptionPart{
+			Name: "Author",
+			Value: c.GithubActor,
+		})
+	}
+
+	descriptionParts = append(descriptionParts, DescriptionPart{
+		Name: "Commit",
+		Value: fmt.Sprintf("[%s](%s)", c.GithubSha, c.GetCommitUrl()),
+	})
 
 	embed := map[string]string{
 		"description": GetDescription(descriptionParts),
@@ -52,8 +69,7 @@ func main() {
 	}
 
 	payload := map[string]interface{}{
-		"avatar_url": "https://user-images.githubusercontent.com/698079/126237897-88c5d9fb-a1d9-4421-955d-152c985726cf.png",
-		"embeds":     []map[string]string{embed},
+		"embeds": []map[string]string{embed},
 	}
 
 	payloadByte, err := json.Marshal(payload)
