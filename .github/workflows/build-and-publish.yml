@@ -2,9 +2,6 @@ name: Build and deploy
 
 on:
   push:
-    branches:
-      - main
-      - staging
     tags:
       - v*
 
@@ -33,6 +30,8 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -40,4 +39,3 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
