@@ -6,4 +6,4 @@ branding:
   color: blue
 runs:
   using: docker
-  image: docker://th0th/notify-discord:0.1
+  image: docker://ghcr.io/th0th/notify-discord:latest
