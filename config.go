@@ -85,5 +85,5 @@ func (c *Config) GetRunUrl() string {
 		return ""
 	}
 
-	return c.GetRepositoryUrl() + "/runs/" + c.GithubRunId
+	return c.GetRepositoryUrl() + "/actions/runs/" + c.GithubRunId
 }
