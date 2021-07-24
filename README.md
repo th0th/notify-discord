@@ -14,7 +14,7 @@ steps:
   - name: Your previous build steps
     
   - name: Notify discord
-    uses: th0th/notify-discord@v0.4
+    uses: th0th/notify-discord@v0.4.0
     if: ${{ always() }}
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
