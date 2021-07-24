@@ -31,10 +31,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          flavor: |
-            latest=${{ github.ref == 'refs/heads/main' }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=raw,enable=${{ github.ref == 'refs/heads/main' }},value=latest
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
