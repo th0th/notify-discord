@@ -14,11 +14,12 @@ steps:
   - name: Your previous build steps
     
   - name: Notify discord
-    uses: th0th/notify-discord@v0.3
+    uses: th0th/notify-discord@v0.4
     if: ${{ always() }}
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       GITHUB_ACTOR: ${{ github.actor }}
+      GITHUB_JOB_NAME: "Build and deploy"
       GITHUB_JOB_STATUS: ${{ job.status }}
 ```
 

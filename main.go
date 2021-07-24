@@ -22,32 +22,39 @@ func main() {
 	descriptionParts := []DescriptionPart{
 		{
 			Name:  "Repository",
-			Value: fmt.Sprintf("[%s](%s)", c.GithubRepository, c.GetRepositoryUrl()),
+			Value: fmt.Sprintf("[%s](%s)", c.GitHubRepository, c.GetRepositoryUrl()),
 		},
 	}
 
 	descriptionParts = append(descriptionParts, DescriptionPart{
 		Name:  "Workflow",
-		Value: c.GithubWorkflow,
+		Value: c.GitHubWorkflow,
 	})
 
-	if c.GithubRef != "" {
+	if c.GitHubJobName != "" {
 		descriptionParts = append(descriptionParts, DescriptionPart{
-			Name:  "Ref",
-			Value: c.GithubRef,
+			Name:  "Job name",
+			Value: c.GitHubJobName,
 		})
 	}
 
-	if c.GithubActor != "" {
+	if c.GitHubRef != "" {
 		descriptionParts = append(descriptionParts, DescriptionPart{
-			Name: "Author",
-			Value: c.GithubActor,
+			Name:  "Ref",
+			Value: c.GitHubRef,
+		})
+	}
+
+	if c.GitHubActor != "" {
+		descriptionParts = append(descriptionParts, DescriptionPart{
+			Name:  "Author",
+			Value: c.GitHubActor,
 		})
 	}
 
 	descriptionParts = append(descriptionParts, DescriptionPart{
-		Name: "Commit",
-		Value: fmt.Sprintf("[%s](%s)", c.GithubSha, c.GetCommitUrl()),
+		Name:  "Commit",
+		Value: fmt.Sprintf("[%s](%s)", c.GitHubSha, c.GetCommitUrl()),
 	})
 
 	embed := map[string]string{
@@ -60,11 +67,11 @@ func main() {
 		embed["url"] = runUrl
 	}
 
-	if c.GithubJobStatus == "success" {
+	if c.GitHubJobStatus == "success" {
 		embed["title"] = "Action is successful."
-	} else if c.GithubJobStatus == "failure" {
+	} else if c.GitHubJobStatus == "failure" {
 		embed["title"] = "Action has failed."
-	} else if c.GithubJobStatus == "cancelled" {
+	} else if c.GitHubJobStatus == "cancelled" {
 		embed["title"] = "Action is cancelled."
 	}
 

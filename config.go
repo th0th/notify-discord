@@ -10,14 +10,15 @@ import (
 
 type Config struct {
 	DiscordWebhookUrl string `env:"DISCORD_WEBHOOK_URL" validate:"required,url"`
-	GithubActor       string `env:"GITHUB_ACTOR"`
-	GithubJobStatus   string `env:"GITHUB_JOB_STATUS" validate:"required"`
-	GithubRef         string `env:"GITHUB_REF"`
-	GithubRepository  string `env:"GITHUB_REPOSITORY" validate:"required"`
-	GithubRunId       string `env:"GITHUB_RUN_ID"`
-	GithubServerUrl   string `env:"GITHUB_SERVER_URL" validate:"required"`
-	GithubSha         string `env:"GITHUB_SHA" validate:"required"`
-	GithubWorkflow    string `env:"GITHUB_WORKFLOW" validate:"required"`
+	GitHubActor       string `env:"GITHUB_ACTOR"`
+	GitHubJobName     string `env:"GITHUB_JOB_NAME"`
+	GitHubJobStatus   string `env:"GITHUB_JOB_STATUS" validate:"required"`
+	GitHubRef         string `env:"GITHUB_REF"`
+	GitHubRepository  string `env:"GITHUB_REPOSITORY" validate:"required"`
+	GitHubRunId       string `env:"GITHUB_RUN_ID"`
+	GitHubServerUrl   string `env:"GITHUB_SERVER_URL" validate:"required"`
+	GitHubSha         string `env:"GITHUB_SHA" validate:"required"`
+	GitHubWorkflow    string `env:"GITHUB_WORKFLOW" validate:"required"`
 }
 
 func NewConfig(v *Validator) (*Config, error) {
@@ -61,19 +62,19 @@ func NewConfig(v *Validator) (*Config, error) {
 }
 
 func (c *Config) GetRepositoryUrl() string {
-	return c.GithubServerUrl + "/" + c.GithubRepository
+	return c.GitHubServerUrl + "/" + c.GitHubRepository
 }
 
 func (c *Config) GetRefUrl() string {
-	if strings.HasPrefix(c.GithubRef, "refs/heads") {
-		s := strings.Split(c.GithubRef, "/")
+	if strings.HasPrefix(c.GitHubRef, "refs/heads") {
+		s := strings.Split(c.GitHubRef, "/")
 		branchName := s[len(s)-1]
 
 		return c.GetRepositoryUrl() + "/tree/" + branchName
 	}
 
-	if strings.HasPrefix(c.GithubRef, "refs/tags") {
-		s := strings.Split(c.GithubRef, "/")
+	if strings.HasPrefix(c.GitHubRef, "refs/tags") {
+		s := strings.Split(c.GitHubRef, "/")
 		tagName := s[len(s)-1]
 
 		return c.GetRepositoryUrl() + "/releases/tags/" + tagName
@@ -83,7 +84,7 @@ func (c *Config) GetRefUrl() string {
 }
 
 func (c *Config) GetCommitUrl() string {
-	return c.GetRepositoryUrl() + "/commit/" + c.GithubSha
+	return c.GetRepositoryUrl() + "/commit/" + c.GitHubSha
 }
 
 func (c *Config) GetRunUrl() string {
